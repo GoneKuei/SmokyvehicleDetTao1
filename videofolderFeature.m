@@ -61,7 +61,7 @@ while hasFrame( v )
                 else
                    templabel = 0; % ·Ç¿ÕÊäÈë±íÊ¾ºÚÑÌ³µµÄºÚÑÌÖ¡£¬1±ê¼Ç
                 end
-                LABEL( abs(frame_order-2)+1 ) = templabel;
+                LABEL( abs(frame_order-2)+1 ) = templabel; % Á¬ĞøµÄÉÏÒ»Ö¡Î´±ØÊÇÓĞĞ§Ö¡£¬ËùÒÔ×îºóÉ¾³ıÎŞĞ§Ö¡²»ÄÜºÍfeatureÒ»Í¬É¾³ı¡¢µ¥¶ÀÉ¾³ı¼´¿É£¬ÒòÎªÖ¸±êÎ»ÖÃ²»Í¬¡¢ÊıÁ¿ÏàÍ¬
                 imshow(frame);% ½øĞĞ±ê×¢×¼±¸
                 YieldImage{frame_order} = frame;
             else % ¼ÆËãÒòrule3µ¼ÖÂµÄ»µÖ¡
@@ -77,6 +77,7 @@ while hasFrame( v )
         badNum(2) = badNum(2)-1;
     end
 end
+% µ¥¶À½øĞĞ×îºóÒ»Ö¡µÄ±ê¼Ç
 labelinput = input('TAP ENTER TO SKIP NON-SMOKE, NUMBERS TO LABEL SMOKY'); % ±ê¼Ç×îºóÒ»Ö¡
     if isempty(labelinput)
         templabel = 0; % Ö±½Ó°´»Ø³µ±íÊ¾·ÇºÚÑÌ³µ£¬0±ê¼Ç
@@ -85,12 +86,11 @@ labelinput = input('TAP ENTER TO SKIP NON-SMOKE, NUMBERS TO LABEL SMOKY'); % ±ê¼
     end
     LABEL( abs(frame_order-2)+1 ) = templabel;
 
-
 badrates = badNum./v.NumFrame;
 badrates1=badrates(1);badrates2=badrates(2);badrates3=badrates(3);
 YieldIndex = ~all( Video_xfeatures==-1,2 );% É¾³ıÎŞĞ§Ö¡
 Video_xfeatures = Video_xfeatures( YieldIndex, :); % É¾³ı
-LABEL = LABEL( YieldIndex ); % É¾³ı
+LABEL = LABEL( ~all( LABEL==-1,2 ) ); % É¾³ıÎŞĞ§Ö¡£¬ºÍfeatureµÄÎŞĞ§Ö¡ÊıÁ¿ÏàÍ¬£¬µ«ÊÇÎ»ÖÃ²»Í¬
 YieldImage = YieldImage( YieldIndex ); % É¾³ıÎŞĞ§Ö¡
 YieldRate = size(Video_xfeatures,2)./v.NumFrame;
 end
